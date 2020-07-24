@@ -1,0 +1,22 @@
+//const { Component } = require("react")
+import React, {Component} from 'react';
+import ListReviewsComponent from './ListReviewsComponent';
+import ReviewComponent from './ReviewComponent';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'; //in that order else location freaksout
+
+class WriterApp extends Component {
+    render(){
+        return (
+            <Router><>
+            <h1>Writer Application</h1>
+            <Switch>
+                <Route path="/" exact component={ListReviewsComponent} />
+                <Route path="/reviews" exact component={ListReviewsComponent} />
+                <Route path="/reviews/:id" component={ReviewComponent} />
+            </Switch></>
+            </Router>
+        );
+    }
+}
+
+export default WriterApp;
