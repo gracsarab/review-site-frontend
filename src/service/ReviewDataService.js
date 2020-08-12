@@ -14,7 +14,13 @@ class ReviewDataService {
     }
     retrieveReview(name, id){
         return axios.get(`${WRITER_API_URL}/reviews/${id}`);
-    }    
+    } 
+    updateReview(name, id, review){
+        return axios.put(`${WRITER_API_URL}/reviews/${id}`, review);
+    }   
+    createReview(name, review){
+        return axios.post(`${WRITER_API_URL}/reviews/`, review);
+    }
 }
 
 export default new ReviewDataService();
