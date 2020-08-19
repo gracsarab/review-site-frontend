@@ -8,6 +8,9 @@ class ReviewDataService {
     retrieveAllReviews(name) {
         return axios.get(`${WRITER_API_URL}/reviews`);
     }
+    retrieveReviewsbyCat(category) {
+        return axios.get(`${WRITER_API_URL}/categories/${category}`);
+    }
     deleteReview(name, id, title) {
         //console.log('executed service');
         return axios.delete(`${WRITER_API_URL}/reviews/${id}`);

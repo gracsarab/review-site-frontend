@@ -11,6 +11,7 @@ class ReviewComponent extends Component {
         this.state = {
             id: this.props.match.params.id,
             title: "",
+            category: "",
             content: ""
         }
 
@@ -37,6 +38,7 @@ class ReviewComponent extends Component {
             id: this.state.id,
             username: WRITER,
             title: this.state.title,
+            category: this.state.category,
             content: this.state.content,
             targetDate: this.state.targetDate
         }
@@ -61,6 +63,7 @@ class ReviewComponent extends Component {
         ReviewDataService.retrieveReview(WRITER, this.state.id)
             .then(response => this.setState({
                 title: response.data.title,
+                category: response.data.category,
                 content: response.data.content 
                 }
             ))
@@ -76,6 +79,11 @@ class ReviewComponent extends Component {
                         <input name="title" className="form-control" type="text" value={this.state.title} placeholder="Title" onChange={this.inputChange}></input>
                         <label>Review:</label>
                         <input name="content" className="form-control" type="text" value={this.state.content} placeholder="Write your review here" onChange={this.inputChange}></input>
+                        <label>Category:</label>
+                        <select name="category" className="form-control" value={this.state.category} onChange={this.inputChange}>
+                            <option value="game">Game</option>
+                            <option value="animation">Animation</option>
+                        </select>
                     </div>
                     <button type="submit" className="btn btn-default">Save</button>
                 </form>

@@ -13,10 +13,11 @@ class WriterApp extends Component {
                 <Route path="/" exact component={ListReviewsComponent} />
                 <Route path="/reviews" exact component={ListReviewsComponent} />
                 <Route path="/reviews/:id" component={ReviewComponent} />
+                <Route path="/categories/:category" component={ListReviewsComponent} />
             </Switch></>
             </Router>
         );
     }
-}
+} 
 
 export default WriterApp;

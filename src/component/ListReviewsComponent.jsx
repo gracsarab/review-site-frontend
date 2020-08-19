@@ -8,23 +8,40 @@ class ListReviewsComponent extends Component {
         super(props)
         this.state = {
             reviews: [],
-            message: null
+            message: null,
+            header: "",
+            cat: this.props.match.params.category
         }
         this.refreshReviews = this.refreshReviews.bind(this);
         this.deleteReviewClicked = this.deleteReviewClicked.bind(this);
         this.updateReviewClicked = this.updateReviewClicked.bind(this);
         this.addReviewClicked = this.addReviewClicked.bind(this);
+        this.listReviewsbyCat = this.listReviewsbyCat.bind(this);
         
     }
     componentDidMount() {
-        this.refreshReviews();
+        if (this.state.cat !== undefined){
+           this.listReviewsbyCat(this.state.cat); 
+        }
+        else{
+            this.refreshReviews();
+        }
+        console.log(this.state.cat);
     }
 
     refreshReviews (){
         ReviewDataService.retrieveAllReviews(WRITER)//HARDCODED
             .then(
                 response => { console.log(response); 
-                this.setState({ reviews: response.data })}
+                this.setState({ reviews: response.data, header: "All Reviews" })}
+            )
+        }
+
+    listReviewsbyCat(category) {
+        ReviewDataService.retrieveReviewsbyCat(category)
+            .then(
+                response => { console.log(response);
+                this.setState({ reviews: response.data, header: `Category: ${category}`})}
             )
     }
 
@@ -48,14 +65,14 @@ class ListReviewsComponent extends Component {
     render(){
         return(
             <div className="container">
-                <h3>All Reviews</h3>
+                <h3>{this.state.header}</h3>
                 {this.state.message && <div class="alert alert-success">{this.state.message}</div>}
                 <div className="container">
                     <table className = "table">
                         <thead>
                             <tr>
-                                <th>Id</th>
                                 <th>Title</th>
+                                <th>Category</th>
                                 <th>Writer</th>
                                 <th>Edit</th>
                             </tr>
@@ -65,11 +82,12 @@ class ListReviewsComponent extends Component {
                                 this.state.reviews.map(
                                     review =>
                                         <tr key = {review.id}>
-                                            <td>{review.id}</td>
+                                            {/* <td>{review.id}</td> */}
                                             <td>{review.title}</td>
+                                            <td><a href={`/categories/${review.category}`}>{review.category}</a></td>
                                             <td>{review.username}</td>
-                                            <td><button className="btn btn-warning" onClick={() => this.deleteReviewClicked(review.id, review.title)}>Delete</button></td>
                                             <td><button className="btn btn-warning" onClick={() => this.updateReviewClicked(review.id)}>Edit</button></td>
+                                            <td><button className="btn btn-warning" onClick={() => this.deleteReviewClicked(review.id, review.title)}>Delete</button></td>
                                         </tr>
                                 )
                             }
